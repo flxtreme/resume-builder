@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{name}} - Resume</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --ink: #1a1a1a;
+        --rule: #1a1a1a;
+        --muted: #5a5a5a;
+        --hair: #d8d4cb;
+        --bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: #ffffff;
+        color: var(--ink);
+        line-height: 1.45;
+        font-size: 9.5pt;
+    }
+
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        background: var(--bg);
+        margin: 0 auto;
+        padding: 6mm 8mm;
+    }
+
+    @media print {
+        body { background: none; margin: 0; }
+        .page { margin: 0; box-shadow: none; width: 100%; min-height: 100%; padding: 6mm 8mm; }
+        .no-print { display: none !important; }
+        @page { size: A4; margin: 0; }
+    }
+
+    /* ---------- Header ---------- */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid var(--rule);
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+        gap: 16px;
+    }
+    h1 {
+        font-family: 'Source Serif 4', serif;
+        font-size: 23pt;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+    }
+    .contact {
+        text-align: right;
+        font-size: 8pt;
+        color: var(--muted);
+        line-height: 1.6;
+        white-space: nowrap;
+    }
+
+    /* ---------- Summary ---------- */
+    .summary-text {
+        font-size: 8pt;
+        color: var(--ink);
+        margin-bottom: 16px;
+        max-width: 100%;
+    }
+
+    /* ---------- Section heading ---------- */
+    h2 {
+        font-family: 'Inter', sans-serif;
+        font-size: 9pt;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--ink);
+        border-bottom: 1px solid var(--hair);
+        padding-bottom: 4px;
+        margin-bottom: 10px;
+    }
+
+    section { margin-bottom: 18px; }
+    section:last-child { margin-bottom: 0; }
+
+    p, li { text-align: left; }
+
+    /* ---------- Experience ---------- */
+    .job { margin-bottom: 14px; }
+    .job:last-child { margin-bottom: 0; }
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 4px 12px;
+        margin-bottom: 3px;
+    }
+    .job-title-line {
+        font-weight: 700;
+        font-size: 10.5pt;
+        color: var(--ink);
+    }
+    .job-company { font-weight: 400; color: var(--muted); }
+    .job-dates {
+        font-size: 8.5pt;
+        color: var(--muted);
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+    }
+    .job-subline {
+        font-size: 8pt;
+        color: var(--muted);
+        margin-bottom: 5px;
+    }
+    .job-subline .tag {
+        display: inline-block;
+        border: 1px solid var(--hair);
+        border-radius: 3px;
+        padding: 1px 6px;
+        margin-right: 4px;
+        font-size: 7.5pt;
+        color: var(--muted);
+    }
+    .job ul { padding-left: 16px; }
+    .job ul li { margin-bottom: 2px; font-size: 8pt; }
+
+    /* ---------- Two-column lower grid: skills / extras ---------- */
+    .grid-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 28px;
+    }
+
+    .stack-row { margin-bottom: 8px; }
+    .stack-row:last-child { margin-bottom: 0; }
+    .stack-label {
+        font-weight: 700;
+        font-size: 8.5pt;
+        color: var(--ink);
+        display: inline;
+    }
+    .stack-values {
+        font-size: 8.5pt;
+        color: var(--muted);
+        display: inline;
+    }
+
+    .flex {
+        display: flex;
+        -webkit-display: flex;
+    }
+
+    .items-start {
+        align-items: start;
+    }
+
+    .side {
+        width: 25%;
+        padding-right: 20px
+    }
+
+    .body {
+        width: 75%;
+    }
+
+    .list-item { margin-bottom: 6px; font-size: 9pt; }
+    .list-item:last-child { margin-bottom: 0; }
+    .list-item .li-title { font-weight: 700; color: var(--ink); }
+    .list-item .li-sub { color: var(--muted); font-size: 8pt; }
+
+    .interests-line { font-size: 9pt; color: var(--muted); }
+    .interests-line .sep { color: var(--hair); margin: 0 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <h1>{{name}}</h1>
+        <div class="contact">
+            {{#if phone}}<div>{{phone}}</div>{{/if}}
+            {{#if email}}<div>{{email}}</div>{{/if}}
+            {{#if location}}<div>{{location}}</div>{{/if}}
+        </div>
+    </header>
+
+    {{#if summary}}<p class="summary-text">{{summary}}</p>{{/if}}
+
+    <div class="flex items-start">
+        <div class="side">
+            <section>
+                <h2>Tech Stack</h2>
+                {{#each techStack}}
+                <div class="stack-row">
+                    <span class="stack-label">{{category}}: </span><span class="stack-values">{{#each items}}{{label}}{{#if first}}{{/if}} &nbsp;&middot;&nbsp; {{/each}}</span>
+                </div>
+                {{/each}}
+            </section>
+
+            <section>
+                {{#if certifications}}
+                <h2>Certification</h2>
+                {{#each certifications}}
+                <div class="list-item">
+                    <div class="li-title">{{title}}</div>
+                    <div class="li-sub">{{subtitle}}</div>
+                    <div class="li-sub">{{issuer}} &bull; {{date}}</div>
+                </div>
+                {{/each}}
+                {{/if}}
+
+                {{#if education}}
+                <h2 style="margin-top: 14px;">Education</h2>
+                {{#each education}}
+                <div class="list-item">
+                    <div class="li-title">{{degree}}</div>
+                    <div class="li-sub">{{school}}</div>
+                    <div class="li-sub">{{year}}</div>
+                </div>
+                {{/each}}
+                {{/if}}
+
+                {{#if hasInterests}}
+                <h2 style="margin-top: 14px;">Interests</h2>
+                <div class="interests-line">
+                    {{#each interests}}{{label}}{{#if first}}{{/if}} &nbsp;&middot;&nbsp; {{/each}}
+                </div>
+                {{/if}}
+            </section>
+        </div>
+
+        <section class="body">
+            <h2>Experience</h2>
+            {{#each experience}}
+            <div class="job">
+                <div class="job-header">
+                    <span class="job-title-line">{{title}} <span class="job-company">— {{company}}</span></span>
+                    <span class="job-dates">{{dates}}</span>
+                </div>
+                <div class="job-subline">
+                    {{location}}{{#if employmentLocation}} &middot; <span class="tag">{{employmentLocation}}</span>{{/if}}{{#if type}} <span class="tag">{{type}}</span>{{/if}}
+                </div>
+                <ul>
+                    {{#each bullets}}<li>{{text}}</li>{{/each}}
+                </ul>
+            </div>
+            {{/each}}
+        </section>
+    </div>
+</div>
+</body>
+</html>

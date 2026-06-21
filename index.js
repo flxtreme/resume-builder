@@ -18,7 +18,8 @@
      dropdown once there's more than one.
   --------------------------------------------------------- */
   const templates = [
-    { name: "Default", path: "./templates/default.frrt" }
+    { name: "Default", path: "./templates/default.frrt" },
+    { name: "Basic", path: "./templates/basic.frrt" }
   ];
   let activeTemplateIndex = 0;
 
