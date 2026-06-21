@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{name}} - Resume</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary: #0f172a;
+        --secondary: #334155;
+        --accent: #2563eb;
+        --bg: #ffffff;
+        --text: #1e293b;
+        --light-bg: #f0f4f8;
+        --border: #cbd5e1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: #ffffff;
+        color: var(--text);
+        line-height: 1.35;
+        font-size: 8pt;
+    }
+
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        background: var(--bg);
+        margin: 0 auto;
+        padding: 10mm;
+        position: relative;
+    }
+
+    @media print {
+        body { background: none; margin: 0; }
+        .page { margin: 0; box-shadow: none; width: 100%; min-height: 100%; padding: 4mm 6mm; }
+        .no-print { display: none !important; }
+        @page { size: A4; margin: 0; }
+    }
+
+    header { text-align: left; margin-bottom: 15px; }
+    h1 { font-size: 24pt; font-weight: 700; color: var(--primary); letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+    .contact { font-size: 8.5pt; color: var(--secondary); font-weight: 500; display: flex; gap: 8px; flex-wrap: wrap; }
+    .contact span { display: flex; align-items: center; gap: 6px; }
+
+    .layout { display: flex; gap: 20px; }
+    .left-col { width: 25%; display: flex; flex-direction: column; gap: 16px; border-right: 1px solid var(--border); padding-right: 8px; }
+    .right-col { width: 75%; display: flex; flex-direction: column; gap: 15px; }
+
+    h2 { font-size: 11pt; color: var(--primary); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .summary-text { text-align: justify; margin-bottom: 15px; }
+    p, li { text-align: left; }
+
+    .sidebar-item h3 { font-size: 9pt; color: var(--primary); font-weight: 700; margin-bottom: 2px; }
+    .sidebar-item p { font-size: 8pt; color: var(--secondary); margin-bottom: 2px; }
+
+    .tech-card { border-radius: 5px; margin-bottom: 12px; }
+    .tech-title { font-weight: 700; font-size: 8pt; color: #000000; margin-bottom: 1px; text-transform: uppercase; }
+    .tech-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+    .tech-badge {
+        padding: 1px 5px; border-radius: 12px; font-size: 7pt; font-weight: 600;
+        border: 1px solid transparent; white-space: nowrap; display: flex; align-items: center; gap: 4px;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+
+    .badge-contact { background-color: #f0f4f8; color: #334155; border-color: #cbd5e1; padding: 3px 10px; }
+    .badge-interest { background-color: #fef2f2; color: #b91c1c; border-color: #fee2e2; }
+    .badge-remote { background-color: #dcfce7; color: #16a34a; border-color: #bbf7d0; }
+    .badge-onsite { background-color: #fffbe0; color: #b45309; border-color: #fde68a; }
+    .badge-regular { background-color: #dcfce7; color: #16a34a; border-color: #bbf7d0; }
+    .badge-freelance { background-color: #fffbe0; color: #b45309; border-color: #fde68a; }
+    .tech-generic { background-color: #e2e8f0; color: #475569; }
+
+    .job { margin-bottom: 10px; }
+    .job-header { margin-bottom: 3px; }
+    .job-title { font-weight: 700; font-size: 10pt; color: var(--primary); }
+    .job-company { font-weight: 500; color: var(--accent); }
+    .job-meta { font-size: 8pt; color: var(--secondary); font-weight: 600; margin-top: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .job-meta .meta-location { color: #94a3b8; }
+    .job-meta .meta-dates { margin-left: auto; }
+
+    .right-col ul { padding-left: 16px; }
+    .job ul li { margin-bottom: 3.5px; font-size: 8pt; }
+
+    .empty-note { color: #94a3b8; font-style: italic; font-size: 8pt; }
+</style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <h1>{{name}}</h1>
+        <div class="contact">
+            {{#if phone}}<span class="tech-badge badge-contact">📞 {{phone}}</span>{{/if}}
+            {{#if email}}<span class="tech-badge badge-contact">✉ {{email}}</span>{{/if}}
+            {{#if location}}<span class="tech-badge badge-contact">📍 {{location}}</span>{{/if}}
+        </div>
+    </header>
+
+    {{#if summary}}<section><p class="summary-text">{{summary}}</p></section>{{/if}}
+
+    <div class="layout">
+        <div class="left-col">
+            <div class="sidebar-item">
+                <h2>Core Tech Stack</h2>
+                {{#each techStack}}
+                <div class="tech-card">
+                    <div class="tech-title">{{category}}</div>
+                    <div class="tech-badges">
+                        {{#each items}}<span class="tech-badge" style="background-color: {{bg}}; color: {{color}};">{{label}}</span>{{/each}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            {{#each certifications}}
+            <div class="sidebar-item">
+                <h2>{{#if first}}Certification{{/if}}</h2>
+                <h3>{{title}}</h3>
+                <p>{{subtitle}}</p>
+                <p>{{issuer}} &bull; <em>{{date}}</em></p>
+            </div>
+            {{/each}}
+
+            {{#each education}}
+            <div class="sidebar-item">
+                <h2>{{#if first}}Education{{/if}}</h2>
+                <h3>{{degree}}</h3>
+                <p>{{school}}</p>
+                <p><em>{{year}}</em></p>
+            </div>
+            {{/each}}
+
+            {{#if hasInterests}}
+            <div class="sidebar-item">
+                <h2>Interests</h2>
+                <div class="tech-badges">
+                    {{#each interests}}<span class="tech-badge badge-interest">{{label}}</span>{{/each}}
+                </div>
+            </div>
+            {{/if}}
+        </div>
+
+        <div class="right-col">
+            <section>
+                <h2>Experience</h2>
+                {{#each experience}}
+                <div class="job">
+                    <div class="job-header">
+                        <div class="job-title">{{title}} <span class="job-company">| {{company}}</span></div>
+                        <div class="job-meta">
+                            <span class="meta-location">{{location}}</span>
+                            {{#if remote}}<span class="tech-badge badge-remote">{{employmentLocation}}</span>{{/if}}
+                            {{#if type}}<span class="tech-badge badge-regular">{{type}}</span>{{/if}}
+                            <span class="meta-dates">{{dates}}</span>
+                        </div>
+                    </div>
+                    <ul>
+                        {{#each bullets}}<li>{{text}}</li>{{/each}}
+                    </ul>
+                </div>
+                {{/each}}
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+</html>
